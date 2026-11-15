@@ -12,8 +12,8 @@
     --border: #eaddd3;
     --shadow: 0 10px 30px rgba(120, 90, 70, 0.10);
     --shadow-sm: 0 4px 14px rgba(120, 90, 70, 0.08);
-    --radius: 22px;
-    --radius-sm: 14px;
+    --radius: 15px;
+    --radius-sm: 10px;
   }
 
   * { box-sizing: border-box; }
