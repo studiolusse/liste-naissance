@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Liste de naissance</title>
+  <meta name="description" content="Liste de naissance — participe à l'arrivée du bébé d'Agnès et Thomas !.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://script.google.com">
+  <link rel="preconnect" href="https://script.googleusercontent.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/svg" href="assets/favicon-biberon.svg" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-emoji">🍼</span>
+      <span class="brand-name" id="brand-name">Liste de naissance</span>
+    </div>
+  </header>
+
+  <div class="hero" aria-hidden="true"></div>
+
+  <main class="container">
+
+    <!-- État de chargement -->
+    <div id="chargement" class="etat-centre">
+      <div class="spinner" aria-hidden="true"></div>
+      <p>Chargement de la liste…</p>
+    </div>
+
+    <!-- État d'erreur -->
+    <div id="erreur-chargement" class="card etat-centre" hidden>
+      <div class="vide-emoji">😕</div>
+      <h2>Oups, la liste n'a pas pu se charger</h2>
+      <p>Vérifie ta connexion et réessaie dans un instant.</p>
+      <button class="btn btn-reserver" onclick="location.reload()">Réessayer</button>
+    </div>
+
+    <!-- Contenu principal (rempli par app.js) -->
+    <div id="contenu" hidden>
+      <div class="chip" id="sous-titre"></div>
+      <h1 class="titre-liste" id="titre"></h1>
+      <div class="meta">
+        <span class="meta-item" id="meta-date"></span>
+        <span class="dot">•</span>
+        <span class="meta-item" id="compteur"></span>
+      </div>
+
+      <section class="card intro" id="intro"></section>
+
+      <section class="card adresse" id="adresse" hidden>
+        <div class="adresse-titre">📦 Adresse de livraison</div>
+        <div class="adresse-valeur" id="adresse-valeur"></div>
+      </section>
+
+      <div id="liste-produits"></div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Fait avec ❤️ pour accueillir bébé.</p>
+  </footer>
+
+  <!-- ===================== Fenêtre de réservation ===================== -->
+  <div class="overlay" id="overlay" hidden>
+    <div class="modale" role="dialog" aria-modal="true" aria-labelledby="modale-titre">
+
+      <!-- Étape 1 : formulaire -->
+      <div id="etape-form">
+        <button class="modale-fermer" id="fermer-modale" aria-label="Fermer">×</button>
+        <h2 id="modale-titre">Réserver ce cadeau</h2>
+        <p class="modale-produit" id="modale-produit"></p>
+
+        <label class="champ">
+          <span>Ton prénom <span class="requis">*</span></span>
+          <input type="text" id="champ-nom" maxlength="80" autocomplete="name" placeholder="Ex : Mamie Claude">
+        </label>
+
+        <label class="champ">
+          <span>Ton e-mail <span class="option">(optionnel)</span></span>
+          <input type="email" id="champ-email" maxlength="120" autocomplete="email" placeholder="pour recevoir le récapitulatif">
+        </label>
+
+        <label class="champ">
+          <span>Un petit mot pour les parents <span class="option">(optionnel)</span></span>
+          <textarea id="champ-message" maxlength="1000" rows="3" placeholder="Avec tout mon amour…"></textarea>
+        </label>
+
+        <p class="note-privacy">🔒 Ton nom reste privé : seuls les parents le verront. Les autres invités verront juste que le cadeau n'est plus disponible.</p>
+
+        <div class="erreur" id="modale-erreur" role="alert" aria-live="assertive" hidden></div>
+
+        <div class="modale-actions">
+          <button class="btn btn-secondaire" id="annuler-modale">Annuler</button>
+          <button class="btn btn-reserver" id="confirmer-resa">Je réserve</button>
+        </div>
+      </div>
+
+      <!-- Étape 1 bis : avertissement si aucun e-mail n'a été renseigné -->
+      <div id="etape-sans-email" hidden>
+        <div class="succes-emoji">✉️</div>
+        <h2>Sans e-mail, pas de récapitulatif</h2>
+        <p class="succes-txt">Tu n'as pas renseigné d'adresse e-mail. Si tu continues&nbsp;:</p>
+        <ul class="liste-avertissement">
+          <li>tu ne recevras <strong>pas la fiche du produit</strong> par mail&nbsp;;</li>
+          <li>ton <strong>lien d'annulation</strong> sera affiché une seule fois à l'écran, et ne sera <strong>plus accessible ensuite</strong>.</li>
+        </ul>
+        <p class="succes-txt">En cas de besoin, il faudra <strong>contacter directement les futurs parents</strong>.</p>
+        <div class="modale-actions">
+          <button class="btn btn-secondaire" id="retour-email">Renseigner mon e-mail</button>
+          <button class="btn btn-reserver" id="continuer-sans-email">Continuer quand même</button>
+        </div>
+      </div>
+
+      <!-- Étape 2 : succès -->
+      <div id="etape-succes" hidden>
+        <div class="succes-emoji">🎉</div>
+        <h2>Merci !</h2>
+        <p class="succes-txt">Tu as réservé <strong id="succes-produit"></strong>.<br>Les parents ont hâte&nbsp;!</p>
+        <p class="succes-mail-info" id="succes-mail-info" hidden></p>
+        <div class="annulation-bloc" id="annulation-bloc">
+          <p id="annulation-intro">Un imprévu&nbsp;? Tu peux annuler ta réservation avec ce lien&nbsp;:</p>
+          <div class="annulation-lien-wrap">
+            <input type="text" id="succes-lien" readonly>
+            <button class="btn btn-secondaire" id="copier-lien">Copier</button>
+          </div>
+          <p class="annulation-astuce" id="annulation-astuce">💡 Garde-le précieusement (mets-le en favori ou copie-le), il ne sera plus affiché après.</p>
+        </div>
+        <div class="modale-actions">
+          <button class="btn btn-reserver" id="fermer-succes">Fermer</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== Vue d'annulation (?annuler=token) ===================== -->
+  <div class="overlay" id="overlay-annulation" hidden>
+    <div class="modale" role="dialog" aria-modal="true">
+      <div id="annul-chargement" class="etat-centre"><div class="spinner" aria-hidden="true"></div></div>
+
+      <div id="annul-confirm" hidden>
+        <div class="succes-emoji">↩️</div>
+        <h2>Annuler ta réservation&nbsp;?</h2>
+        <p class="succes-txt">Tu es sur le point d'annuler la réservation de&nbsp;:<br><strong id="annul-produit"></strong>.<br>Il redeviendra disponible pour quelqu'un d'autre.</p>
+        <div class="erreur" id="annul-erreur" role="alert" aria-live="assertive" hidden></div>
+        <div class="modale-actions">
+          <button class="btn btn-secondaire" id="annul-retour">Non, garder</button>
+          <button class="btn btn-reserver" id="annul-confirmer">Oui, annuler</button>
+        </div>
+      </div>
+
+      <div id="annul-fait" hidden>
+        <div class="succes-emoji">✅</div>
+        <h2>Réservation annulée</h2>
+        <p class="succes-txt"><strong id="annul-fait-produit"></strong> est de nouveau disponible. Merci de nous avoir prévenus&nbsp;!</p>
+        <div class="modale-actions">
+          <button class="btn btn-reserver" id="annul-fermer">← Retour à la liste</button>
+        </div>
+      </div>
+
+      <div id="annul-invalide" hidden>
+        <div class="succes-emoji">🤔</div>
+        <h2>Lien invalide ou déjà utilisé</h2>
+        <p class="succes-txt">Cette réservation a peut-être déjà été annulée, ou le lien n'est plus valide.</p>
+        <div class="modale-actions">
+          <button class="btn btn-reserver" id="annul-fermer-2">← Retour à la liste</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="mock-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
