@@ -97,7 +97,9 @@
     var cfg = data.config || {};
     document.title = cfg.titre || 'Liste de naissance';
     $('brand-name').textContent = cfg.titre || 'Liste de naissance';
-    $('sous-titre').textContent = cfg.sous_titre || 'Liste de naissance';
+    var chip = $('sous-titre');
+chip.textContent = cfg.sous_titre || '';
+chip.style.display = cfg.sous_titre ? '' : 'none';
     // Titre principal : clé "titre_page" du config, sinon libellé par défaut.
     $('titre').textContent = cfg.titre_page || ('Liste de naissance de ' + (cfg.titre || ''));
     $('meta-date').textContent = '📅 ' + (cfg.date || '');
