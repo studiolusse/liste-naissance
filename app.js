@@ -160,8 +160,8 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
     var reserve = (p.disponible === false);
     var bouton = reserve
       ? '<button class="btn btn-reserve-inactif" disabled>Déjà réservé</button>'
-      : '<button class="btn btn-reserver" data-id="' + esc(p.id) + '" data-nom="' + esc(p.nom) + '">Réserver</button>';
-
+            : '<button class="btn btn-reserver" data-id="' + esc(p.id) + '" data-nom="' + esc(p.nom) + '">' + esc(p.bouton || 'Réserver') + '</button>';
+    
     return '<article class="produit' + (reserve ? ' est-reserve' : '') + '" id="card-' + esc(p.id) + '">' +
       '<div class="produit-image">' + img + '</div>' +
       '<div class="produit-corps">' +
