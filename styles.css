@@ -71,7 +71,6 @@
     background-color: #FFFFFF;
     background-image:
       url("assets/hero-pattern.svg"),
-      linear-gradient(120deg, #f8ede3, #eef3ea);
     background-repeat: repeat, no-repeat;
     background-size: 460px 220px, cover;
     background-position: top left, center;
