@@ -110,7 +110,7 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
     // Intro (paragraphes + signature)
     var introHtml = '';
     String(cfg.intro || '').split('\n').forEach(function (ligne) {
-      if (ligne.trim()) introHtml += '<p>' + esc(ligne) + '</p>';
+    if (ligne.trim()) introHtml += '<p>' + gras(ligne) + '</p>';
     });
     if (cfg.signature) introHtml += '<p class="signature">' + esc(cfg.signature) + '</p>';
     $('intro').innerHTML = introHtml;
