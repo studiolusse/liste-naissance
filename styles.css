@@ -67,9 +67,9 @@
   /* ---------- Hero ---------- */
   .hero {
     position: relative;
-    height: 210px;
+    height: 180px;
     overflow: hidden;
-    background-color: #FFFFFF;
+    background-color: rgba(251, 246, 242, 0.85);
     background-image:
       url("assets/hero-pattern.svg");
     background-repeat: repeat, no-repeat;
