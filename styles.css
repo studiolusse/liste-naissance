@@ -70,7 +70,7 @@
     overflow: hidden;
     background-color: #FFFFFF;
     background-image:
-      url("assets/hero-pattern.svg"),
+      url("assets/hero-pattern.svg");
     background-repeat: repeat, no-repeat;
     background-size: 460px 220px, cover;
     background-position: top left, center;
