@@ -12,8 +12,8 @@
     --border: #eaddd3;
     --shadow: 0 10px 30px rgba(120, 90, 70, 0.10);
     --shadow-sm: 0 4px 14px rgba(120, 90, 70, 0.08);
-    --radius: 15px;
-    --radius-sm: 10px;
+    --radius: 5px;
+    --radius-sm: 5px;
   }
 
   * { box-sizing: border-box; }
@@ -68,7 +68,7 @@
     position: relative;
     height: 210px;
     overflow: hidden;
-    background-color: #f2ece4;
+    background-color: #FFFFFF;
     background-image:
       url("assets/hero-pattern.svg"),
       linear-gradient(120deg, #f8ede3, #eef3ea);
