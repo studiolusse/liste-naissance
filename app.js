@@ -57,6 +57,9 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
+  function gras(v) {
+  return esc(v).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
   function sanitizeUrl(u) {
     u = (u == null ? '' : String(u)).trim();
     return /^https?:\/\//i.test(u) ? u : '';
