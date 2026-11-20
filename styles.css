@@ -186,8 +186,8 @@
   }
 
   .produit-image {
-    aspect-ratio: 1 / 1;
-    background: var(--cream-2);
+    aspect-ratio: 4 / 3;
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
