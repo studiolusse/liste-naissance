@@ -150,8 +150,8 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
     var img = photo
       ? '<img src="' + esc(photo) + '" alt="' + esc(p.nom) + '" loading="lazy" ' +
         'referrerpolicy="no-referrer" ' +
-        'onerror="this.parentNode.innerHTML=&quot;<div class=\\&quot;produit-placeholder\\&quot;>🎁</div>&quot;">'
-      : '<div class="produit-placeholder">🎁</div>';
+        'onerror="this.parentNode.innerHTML=&quot;<div class=\\&quot;produit-placeholder\\&quot;>' + emoji + '</div>&quot;">'
+      : '<div class="produit-placeholder">' + emoji + '</div>';
     var desc = p.description ? '<p class="produit-desc">' + esc(p.description) + '</p>' : '';
     var enseigne = '';
     if (p.enseigne) enseigne = '<div class="produit-enseigne">🏬 ' + esc(p.enseigne) + '</div>';
