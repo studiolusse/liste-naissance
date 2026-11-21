@@ -164,7 +164,7 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
     var reserve = (p.disponible === false);
     var bouton = reserve
       ? '<button class="btn btn-reserve-inactif" disabled>Déjà réservé</button>'
-            : '<button class="btn btn-reserver" data-id="' + esc(p.id) + '" data-nom="' + esc(p.nom) + '">' + esc(p.bouton || 'Réserver') + '</button>';
+      : '<button class="btn btn-reserver" data-id="' + esc(p.id) + '" data-nom="' + esc(p.nom) + '" data-bouton="' + esc(p.bouton || '') + '">' + esc(p.bouton || 'Réserver') + '</button>';
     
     return '<article class="produit' + (reserve ? ' est-reserve' : '') + '" id="card-' + esc(p.id) + '">' +
       '<div class="produit-image">' + img + '</div>' +
@@ -185,6 +185,7 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
   var copyTimer = null;
   var fermetureTimer = null;   // fermeture automatique après « déjà réservé »
   var envoiEnCours = false;
+  var libelleConfirmer = 'Je réserve';
   var overlay = $('overlay');
   var modale = overlay.querySelector('.modale');
   var etapeForm = $('etape-form');
@@ -206,14 +207,19 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
     });
   }
 
-  function ouvrirModale(id, nom) {
+  function ouvrirModale(id, nom, mode) {
     if (fermetureTimer) { clearTimeout(fermetureTimer); fermetureTimer = null; }
     courant.id = id; courant.nom = nom; courant.declencheur = document.activeElement;
+    var libre = !!mode;
+    libelleConfirmer = libre ? 'Je participe' : 'Je réserve';
+    $('modale-titre').textContent = libre ? 'Participer à la cagnotte' : 'Réserver ce cadeau';
     $('modale-produit').textContent = nom;
+    $('modale-produit').hidden = libre;
+    champEmail.placeholder = libre ? 'pour recevoir le RIB de Cam & Lulu' : 'pour recevoir le récapitulatif';
     champNom.value = ''; champEmail.value = ''; champMessage.value = '';
     cacherErreur();
     etapeForm.hidden = false; etapeSucces.hidden = true; etapeSansEmail.hidden = true;
-    btnConfirmer.disabled = false; btnConfirmer.textContent = 'Je réserve';
+    btnConfirmer.disabled = false; btnConfirmer.textContent = libelleConfirmer;
     overlay.hidden = false; fondInert(true);
     setTimeout(function () { champNom.focus(); }, 50);
   }
@@ -225,7 +231,7 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
   function afficherErreur(msg) { erreurBox.hidden = false; erreurBox.textContent = msg; }
   function cacherErreur() { erreurBox.hidden = true; erreurBox.textContent = ''; }
   function reactiver() {
-    btnConfirmer.disabled = false; btnConfirmer.textContent = 'Je réserve';
+    btnConfirmer.disabled = false; btnConfirmer.textContent = libelleConfirmer;
     btnContinuerSansEmail.disabled = false; btnContinuerSansEmail.textContent = 'Continuer quand même';
     btnRetourEmail.disabled = false;
   }
@@ -405,7 +411,7 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
 
   document.addEventListener('click', function (e) {
     var b = e.target.closest('.btn-reserver[data-id]');
-    if (b && b.getAttribute('data-id')) ouvrirModale(b.getAttribute('data-id'), b.getAttribute('data-nom'));
+        if (b && b.getAttribute('data-id')) ouvrirModale(b.getAttribute('data-id'), b.getAttribute('data-nom'), b.getAttribute('data-bouton'));
   });
   $('fermer-modale').addEventListener('click', fermerModale);
   $('annuler-modale').addEventListener('click', fermerModale);
