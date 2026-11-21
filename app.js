@@ -146,6 +146,7 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
     // referrerpolicy="no-referrer" : certains CDN marchands refusent les images
     // demandées depuis un autre site. Si l'image échoue malgré tout, onerror
     // bascule sur l'icône cadeau plutôt que d'afficher une image cassée.
+    var emoji = (p.categorie === 'Participation libre') ? '👛' : '🎁';
     var img = photo
       ? '<img src="' + esc(photo) + '" alt="' + esc(p.nom) + '" loading="lazy" ' +
         'referrerpolicy="no-referrer" ' +
