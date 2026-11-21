@@ -10,5 +10,5 @@
  * avec ?mock=1 à la fin de l'URL.
  */
 window.APP_CONFIG = {
-  API_URL: "https://script.google.com/macros/s/AKfycbwmhzYeh2mvf77S0hmMyWXv-MQCnpyap-fIMP4VDz0pX_3JiZFF3yumBInGHn095nUfPw/exec"
+  API_URL: "https://script.google.com/macros/s/AKfycbxceHpcXgGd6GOit46I-abb9jIJE7lI30H1-Ckt1HwviOPi_W7rUpsEdL9jTGY5mFLuIA/exec"
 };
