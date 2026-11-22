@@ -200,6 +200,13 @@
     object-position: center;
     padding: 0px;
   }
+  .produit-image.sans-photo {
+    aspect-ratio: auto;
+    height: 110px;
+  }
+  .produit-image.sans-photo .produit-placeholder {
+    font-size: 2.9rem;
+  }
   .produit-placeholder { font-size: 3.5rem; opacity: 0.6; }
 
   .produit-corps {
