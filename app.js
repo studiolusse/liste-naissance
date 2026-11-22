@@ -150,7 +150,7 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
     var img = photo
       ? '<img src="' + esc(photo) + '" alt="' + esc(p.nom) + '" loading="lazy" ' +
         'referrerpolicy="no-referrer" ' +
-        'onerror="this.parentNode.innerHTML=&quot;<div class=\\&quot;produit-placeholder\\&quot;>' + emoji + '</div>&quot;">'
+      'onerror="this.parentNode.classList.add(&quot;sans-photo&quot;);this.parentNode.innerHTML=&quot;<div class=\\&quot;produit-placeholder\\&quot;>' + emoji + '</div>&quot;">'
       : '<div class="produit-placeholder">' + emoji + '</div>';
     var desc = p.description ? '<p class="produit-desc">' + esc(p.description) + '</p>' : '';
     var enseigne = '';
@@ -167,7 +167,7 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
       : '<button class="btn btn-reserver" data-id="' + esc(p.id) + '" data-nom="' + esc(p.nom) + '" data-bouton="' + esc(p.bouton || '') + '">' + esc(p.bouton || 'Réserver') + '</button>';
     
     return '<article class="produit' + (reserve ? ' est-reserve' : '') + '" id="card-' + esc(p.id) + '">' +
-      '<div class="produit-image">' + img + '</div>' +
+      '<div class="produit-image' + (photo ? '' : ' sans-photo') + '">' + img + '</div>' +
       '<div class="produit-corps">' +
       '<h3 class="produit-nom">' + esc(p.nom) + '</h3>' + desc + enseigne + prix +
       bouton + lien + '</div></article>';
