@@ -211,6 +211,7 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
     if (fermetureTimer) { clearTimeout(fermetureTimer); fermetureTimer = null; }
     courant.id = id; courant.nom = nom; courant.declencheur = document.activeElement;
     var libre = !!mode;
+    courant.libre = libre;
     libelleConfirmer = libre ? 'Je participe' : 'Je réserve';
     $('modale-titre').textContent = libre ? 'Participer à la cagnotte' : 'Réserver ce cadeau';
     $('modale-produit').textContent = nom;
@@ -261,6 +262,15 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
   function afficherEtapeSansEmail() {
     etapeForm.hidden = true;
     etapeSansEmail.hidden = false;
+        var libre = !!courant.libre;
+    etapeSansEmail.querySelector('h2').textContent = libre
+      ? 'Sans e-mail, pas de RIB' : 'Sans e-mail, pas de récapitulatif';
+    etapeSansEmail.querySelector('li').innerHTML = libre
+      ? 'tu ne recevras <strong>pas le RIB</strong> de Cam &amp; Lulu par mail&nbsp;;'
+      : 'tu ne recevras <strong>pas la fiche du produit</strong> par mail&nbsp;;';
+    etapeSansEmail.querySelectorAll('.succes-txt')[1].innerHTML = libre
+      ? 'Pour obtenir le RIB, il faudra <strong>le demander directement aux futurs parents</strong>.'
+      : 'En cas de besoin, il faudra <strong>contacter directement les futurs parents</strong>.';
     btnContinuerSansEmail.disabled = false;
     btnContinuerSansEmail.textContent = 'Continuer quand même';
     setTimeout(function () { btnRetourEmail.focus(); }, 50);
@@ -319,7 +329,11 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
     }
   }
   function afficherSucces(res, nomEnvoye, avecEmail) {
-    $('succes-produit').textContent = res.produit || nomEnvoye || '';
+        var libre = !!courant.libre;
+    etapeSucces.querySelector('.succes-txt').innerHTML = libre
+      ? 'Merci pour ta participation à la cagnotte&nbsp;!<br>Les parents ont hâte&nbsp;!'
+      : 'Tu as réservé <strong id="succes-produit"></strong>.<br>Les parents ont hâte&nbsp;!';
+    if (!libre) $('succes-produit').textContent = res.produit || nomEnvoye || '';
     var url = res.token ? (location.origin + location.pathname + '?annuler=' + encodeURIComponent(res.token)) : '';
     $('succes-lien').value = url;
     var bloc = $('annulation-bloc');
@@ -330,10 +344,14 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
     var info = $('succes-mail-info');
     if (info) {
       if (mailOk) {
-        info.innerHTML = '📬 Un récapitulatif vient de t’être envoyé par e-mail (pense à vérifier tes spams).';
+        info.innerHTML = libre
+          ? '📬 Le RIB vient de t’être envoyé par e-mail (pense à vérifier tes spams).'
+          : '📬 Un récapitulatif vient de t’être envoyé par e-mail (pense à vérifier tes spams).';
         info.hidden = false;
       } else if (avecEmail) {
-        info.innerHTML = '⚠️ L’e-mail n’a pas pu être envoyé. Garde bien le lien ci-dessous.';
+        info.innerHTML = libre
+          ? '⚠️ L’e-mail n’a pas pu être envoyé : demande le RIB directement aux parents. Garde bien le lien ci-dessous.'
+          : '⚠️ L’e-mail n’a pas pu être envoyé. Garde bien le lien ci-dessous.';
         info.hidden = false;
       } else {
         info.hidden = true;
