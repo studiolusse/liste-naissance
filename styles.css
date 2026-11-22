@@ -204,6 +204,9 @@
     aspect-ratio: auto;
     height: 90px;
   }
+  .produit:has(.sans-photo) {
+    align-self: start;
+  }
   .produit-image.sans-photo .produit-placeholder {
     font-size: 2.9rem;
   }
