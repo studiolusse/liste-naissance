@@ -331,8 +331,8 @@ chip.style.display = cfg.sous_titre ? '' : 'none';
   function afficherSucces(res, nomEnvoye, avecEmail) {
         var libre = !!courant.libre;
     etapeSucces.querySelector('.succes-txt').innerHTML = libre
-      ? 'Merci pour ta participation à la cagnotte&nbsp;!<br>Les parents ont hâte&nbsp;!'
-      : 'Tu as réservé <strong id="succes-produit"></strong>.<br>Les parents ont hâte&nbsp;!';
+      ? 'Merci pour ta participation à la cagnotte&nbsp;!'
+      : 'Tu as réservé <strong id="succes-produit"></strong>.';
     if (!libre) $('succes-produit').textContent = res.produit || nomEnvoye || '';
     var url = res.token ? (location.origin + location.pathname + '?annuler=' + encodeURIComponent(res.token)) : '';
     $('succes-lien').value = url;
